@@ -55,7 +55,7 @@ double calcular_integral_concurrente( ){
 	double resultado=0;
 
    // crear y lanzar $n$ hebras, cada una ejecuta "funcion\_concurrente"
-	for(unsigned int i=0; i < n ; i++){
+	for(unsigned long i=0; i < n ; i++){
 		void * numero = (void *) i;
 		pthread_create(&(hebras[i]),NULL,&funcion_hebra,numero);		
 	}
