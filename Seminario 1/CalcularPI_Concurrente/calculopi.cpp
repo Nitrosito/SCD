@@ -1,7 +1,6 @@
-// *********************************************************************
-// SCD. Ejemplos del seminario 1.
-//
-// Plantilla para el ejercicio de cálculo de PI
+// AUTOR: CARLOS MARTÍN CARRASCO
+// LICENCIA: GPLv3
+// En este código se hace uso de hebras.Creación de hebras,uso, y esperar a que terminen hebras.
 // *********************************************************************
 
 #include <iostream>
@@ -86,6 +85,3 @@ int main(){
 }
 // ---------------------------------------------------------------------
 
-
-
-// ----------------------------------------------------------------------------
