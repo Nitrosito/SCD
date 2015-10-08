@@ -13,24 +13,20 @@ const unsigned
 
 // ---------------------------------------------------------------------
 
-unsigned producir_dato()
-{
+unsigned producir_dato(){
   static int contador = 0 ;
   cout << "producido: " << contador << endl << flush ;
   return contador++ ;
 }
 // ---------------------------------------------------------------------
 
-void consumir_dato( int dato )
-{
+void consumir_dato( int dato ){
     cout << "dato recibido: " << dato << endl ;
 }
 // ---------------------------------------------------------------------
 
-void * productor( void * )
-{   
-  for( unsigned i = 0 ; i < num_items ; i++ )
-  { 
+void * productor( void * ){   
+  for( unsigned i = 0 ; i < num_items ; i++ ){ 
     int dato = producir_dato() ;
     
     // falta: insertar "dato" en el vector
@@ -41,10 +37,8 @@ void * productor( void * )
 }
 // ---------------------------------------------------------------------
 
-void * consumidor( void * )
-{   
-  for( unsigned i = 0 ; i < num_items ; i++ )
-  {   
+void * consumidor( void * ){   
+  for( unsigned i = 0 ; i < num_items ; i++ ){   
     int dato ;
     
     // falta: leer "dato" desde el vector intermedio
@@ -56,8 +50,7 @@ void * consumidor( void * )
 }
 //----------------------------------------------------------------------
 
-int main()
-{
+int main(){
    
   // falta: crear y poner en marcha las hebras, esperar que terminen
   // ....

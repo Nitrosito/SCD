@@ -1,8 +1,12 @@
 // AUTOR: CARLOS MARTÍN CARRASCO
 // LICENCIA: GPLv3
 // En este código se hace uso de hebras.Creación de hebras,uso, y esperar a que terminen hebras.
+// Compilacion: 
+// gcc -g -c fun_tiempos.c # compila ”fun tiempos.c” y genera ”fun tiempos.o”
+// g++ -g -c ejemplo.cpp # compila ”ejemplo.cpp” y genera ”ejemplo.o”
+// g++ -o ejemplo ejemplo.o fun_tiempos.o -lrt -lpthread # enlaza, genera ”ejemplo”   
 // *********************************************************************
-
+#include "fun_tiempo.h"
 #include <iostream>
 #include <pthread.h>
 
@@ -75,11 +79,16 @@ int main(){
    cout << "Ejemplo 4 (cálculo de PI)" << endl ;
    double pi_sec = 0.0, pi_conc = 0.0 ;
    
+   struct timespec inicio=ahora();
    pi_sec  = calcular_integral_secuencial() ;
+   struct timespec fin=ahora();
+
+   struct timespec inicioc=ahora();
    pi_conc = calcular_integral_concurrente() ;
+   struct timespec finc=ahora();
    
-   cout << "valor de PI (calculado secuencialmente)  == " << pi_sec  << endl 
-        << "valor de PI (calculado concurrentemente) == " << pi_conc << endl ; 
+   cout << "valor de PI (calculado secuencialmente)  == " << pi_sec  << " en " << duracion(&inicio,&fin) << " segundos" << endl 
+        << "valor de PI (calculado concurrentemente) == " << pi_conc << " en " << duracion(&inicioc,&finc) << " segundos" << endl ; 
     
    return 0 ;
 }
