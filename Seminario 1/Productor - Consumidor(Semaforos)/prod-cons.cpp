@@ -23,13 +23,13 @@ const unsigned
 
 unsigned producir_dato(){
   static int contador = 0 ;
-  cout << "producido: " << "pos lectura: " << posicion_lectura << " pos escritura " << posicion_escritura <<"  "<<  contador << endl << flush ;
+  cout << "producido: " <<  contador << endl << flush ;
   return contador++ ;
 }
 // ---------------------------------------------------------------------
 
 void consumir_dato( int dato ){
-    cout << "dato recibido: " << dato  << "pos lectura: " << posicion_lectura << "pos escritura " << posicion_escritura << endl << flush;
+    cout << "dato recibido: " << dato << endl << flush;
 }
 // ---------------------------------------------------------------------
 
