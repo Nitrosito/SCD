@@ -9,12 +9,11 @@
 // ----------------------------------------------------------------------------
 // función que simula la acción de fumar  como un retardo aleatorio de la hebra
 
-void fumar() 
-{ 
+void fumar() { 
    //  inicializa la semilla aleatoria  (solo la primera vez)
    static bool primera_vez = true ;
-   if ( primera_vez )
-   {   primera_vez = false ;
+   if ( primera_vez ){
+      primera_vez = false ;
       srand( time(NULL) );    
    }
    
@@ -31,9 +30,19 @@ void fumar()
 
 // ----------------------------------------------------------------------------
 
-int main()
-{
-  // falta: creación hebras ....
-   
+int main(){
+	// 0 Estanco
+	// 1 Cerillas
+	// 2 Tabaco
+	// 3 Papel
+  pthread_t fumador[4];
+
+  //Inicio a los fumadores
+  for(int i=0; i<3; i++){
+	void *idIngrediente = (void *) i;
+	pthread_create(&(fumador[i]),NULL,&fumador,idIngrediente;
+  }
+	
+
   return 0 ;
 }
