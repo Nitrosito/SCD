@@ -5,10 +5,11 @@
 #include <time.h>      // incluye "time(....)"
 #include <unistd.h>    // incluye "usleep(...)"
 #include <stdlib.h>    // incluye "rand(...)" y "srand"
-
+using namespace std;
 // ---------------------------------------------------------------------------
 sem_t ingrediente[3];
 sem_t estanco;
+string nombre_ingrediente[3];
 // ---------------------------------------------------------------------------
 
 
@@ -32,42 +33,42 @@ void fumar() {
 
 // ----------------------------------------------------------------------------
 // Funcion que realiza el estanco
-void *estanco_f(){
+void *estanco_f(void*){
 	while(true){
 		//Espera a que un fumador recoga el ingrediente
 		sem_wait(&estanco);
 		//Genero ingrediente Aleatorio
-		int random_number = rand() % 2 + 0;
-		nombre_ingrediente[4]=random_number;
-		cout << "He generado el ingrediente " << nombre_ingrediente[4] << endl << flush ;
+		int random_number = rand() % 3 + 0;
+		cout << "He generado el ingrediente " << nombre_ingrediente[random_number] << endl << flush ;
 		//Desbloqueo al fumador que le falta ese ingrediente
 		sem_post(&ingrediente[random_number]);
 	}
+	return NULL;
 }
 // ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 // Funcion que realizan los fumadores
 void *fumador_f(void *id_fumador){
-	    int idfumador = (int) id_fumador ; // número o índice de esta hebra
-     	    nombre_ingrediente[id_fumador]=idfumador;
-
-	while (true){
-	   cout << "Soy el fumador " << id_fumador << " y estoy esperando el ingrediente " << nombre_ingrediente[id_fumador] << endl << flush;
+	   unsigned long idfumador = (unsigned long) id_fumador ; // número o índice de esta hebra
+	   while (true){
+	   cout << "Soy el fumador " << id_fumador << " y estoy esperando el ingrediente " << nombre_ingrediente[idfumador] << endl << flush;
 	   //Espera a que se desbloquee su ingrediente
-	   sem_wait(&ingrediente[id_fumador];
+	   sem_wait(&ingrediente[idfumador]);
 	   //Coge el ingrediente y se lo ""comunica"" a estanco
 	   sem_post(&estanco);
-	   cout << "Soy el fumador " << id_fumador << "y estoy comenzando a fumar " << endl << flush;
+	   cout << "Soy el fumador " << idfumador << " y estoy comenzando a fumar " << endl << flush;
 	   fumar();
-	   cout << "Soy el fumador " << id_fumador << "y he acabado de fumar " << endl << flush;
+	   cout << "Soy el fumador " << idfumador << " y he acabado de fumar " << endl << flush;
    	}
+	   return NULL;
 }
 // ----------------------------------------------------------------------------
 int main(){
-typedef enum  {Cerillas,Tabaco,Papel} nombre_ingrediente[4];
-
-pthread_t fumador[3],estanco;
+nombre_ingrediente[0]="Cerillas";
+nombre_ingrediente[1]="Tabaco";
+nombre_ingrediente[2]="Papel";
+pthread_t fumador[3],estancot;
 	// 0 Cerillas
 	// 1 Tabaco
 	// 2 Papel
@@ -75,16 +76,16 @@ pthread_t fumador[3],estanco;
   sem_init(&estanco,0,1);
 
   //Inicio a Estanco
-  pthread_create(&estanco,NULL,&f_estanco,0);
+  pthread_create(&estancot,NULL,&estanco_f,NULL);
 
   //Inicio a los fumadores y sus semaforos
-  for(int i=0; i<3; i++){
+  for(unsigned int i=0; i<3; i++){
 	sem_init (&ingrediente[i],0,0);
 	void *idfumador = (void *) i;
-	pthread_create(&(fumador[i]),NULL,&fumador_f,idfumador;
+	pthread_create(&(fumador[i]),NULL,&fumador_f,idfumador);
   }
 
-  pthread_join(estanco,NULL);
+  pthread_join(estancot,NULL);
 
   return 0 ;
 }
