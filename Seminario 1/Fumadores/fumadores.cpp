@@ -86,6 +86,9 @@ pthread_t fumador[3],estancot;
   }
 
   pthread_join(estancot,NULL);
+  for(int i=0; i <3; i++)
+	  pthread_join(fumador[i],NULL);
+  
 
   return 0 ;
 }
