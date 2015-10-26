@@ -8,6 +8,7 @@
 using namespace std;
 // ---------------------------------------------------------------------------
 sem_t ingrediente[3];
+sem_t mutex;
 sem_t estanco;
 string nombre_ingrediente[3];
 // ---------------------------------------------------------------------------
@@ -39,7 +40,11 @@ void *estanco_f(void*){
 		sem_wait(&estanco);
 		//Genero ingrediente Aleatorio
 		int random_number = rand() % 3 + 0;
+
+     		sem_wait(&mutex);
 		cout << "He generado el ingrediente " << nombre_ingrediente[random_number] << endl << flush ;
+	        sem_post(&mutex);
+
 		//Desbloqueo al fumador que le falta ese ingrediente
 		sem_post(&ingrediente[random_number]);
 	}
@@ -52,14 +57,24 @@ void *estanco_f(void*){
 void *fumador_f(void *id_fumador){
 	   unsigned long idfumador = (unsigned long) id_fumador ; // número o índice de esta hebra
 	   while (true){
+    	   sem_wait(&mutex);
 	   cout << "Soy el fumador " << id_fumador << " y estoy esperando el ingrediente " << nombre_ingrediente[idfumador] << endl << flush;
+	   sem_post(&mutex);
+
 	   //Espera a que se desbloquee su ingrediente
 	   sem_wait(&ingrediente[idfumador]);
 	   //Coge el ingrediente y se lo ""comunica"" a estanco
 	   sem_post(&estanco);
+
+    	   sem_wait(&mutex);
 	   cout << "Soy el fumador " << idfumador << " y estoy comenzando a fumar " << endl << flush;
+	   sem_post(&mutex);
+
 	   fumar();
+
+    	   sem_wait(&mutex);
 	   cout << "Soy el fumador " << idfumador << " y he acabado de fumar " << endl << flush;
+	   sem_post(&mutex);
    	}
 	   return NULL;
 }
@@ -74,6 +89,7 @@ pthread_t fumador[3],estancot;
 	// 2 Papel
 
   sem_init(&estanco,0,1);
+  sem_init(&mutex,0,1);
 
   //Inicio a Estanco
   pthread_create(&estancot,NULL,&estanco_f,NULL);
