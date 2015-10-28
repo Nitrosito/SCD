@@ -95,7 +95,7 @@ pthread_t fumador[3],estancot;
   pthread_create(&estancot,NULL,&estanco_f,NULL);
 
   //Inicio a los fumadores y sus semaforos
-  for(unsigned int i=0; i<3; i++){
+  for(unsigned long i=0; i<3; i++){
 	sem_init (&ingrediente[i],0,0);
 	void *idfumador = (void *) i;
 	pthread_create(&(fumador[i]),NULL,&fumador_f,idfumador);
